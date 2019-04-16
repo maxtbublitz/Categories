@@ -31,10 +31,15 @@ public:
 	YearNode* searchYear(int y);
 	void printCategories(int y); // prints categories for one year
 	void createTeamNode(string nm, float gf60, float ga60, int year);
+	void readFile(string filename, int y);
 private:
 	YearNode* root;
 	YearNode* createYearNode(int y);
 	YearNode* addYearHelper(YearNode* n, int y);
 };
+
+string getTeamAbrv(string name);
+
+
 
 
