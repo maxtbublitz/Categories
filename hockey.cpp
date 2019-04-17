@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <iomanip>
 
 #include "hockey.hpp"
 
@@ -56,6 +57,32 @@ YearNode* YearTree::createYearNode(int y){
 	for(int i = 0; i < 4; i++){
 		newNode->table[i] = NULL;
 	}
+
+	newNode->hist.r1v2 = 0;
+	newNode->hist.r1v3 = 0;
+	newNode->hist.r1v4 = 0;
+	newNode->hist.r2v1 = 0;
+	newNode->hist.r2v3 = 0;
+	newNode->hist.r2v4 = 0;
+	newNode->hist.r3v1 = 0;
+	newNode->hist.r3v2 = 0;
+	newNode->hist.r3v4 = 0;
+	newNode->hist.r4v1 = 0;
+	newNode->hist.r4v2 = 0;
+	newNode->hist.r4v3 = 0;
+	newNode->hist.r1v2p = 0;
+	newNode->hist.r1v3p = 0;
+	newNode->hist.r1v4p = 0;
+	newNode->hist.r2v1p = 0;
+	newNode->hist.r2v3p = 0;
+	newNode->hist.r2v4p = 0;
+	newNode->hist.r3v1p = 0;
+	newNode->hist.r3v2p = 0;
+	newNode->hist.r3v4p = 0;
+	newNode->hist.r4v1p = 0;
+	newNode->hist.r4v2p = 0;
+	newNode->hist.r4v3p = 0;
+
 	return newNode;
 }
 
@@ -122,9 +149,6 @@ int YearTree::searchTeam(string name, int y){ // returns teams category number
 
 void YearTree::printCategories(int y){
 	YearNode* n = searchYear(y);
-	cout << "----------" << "-----------------------------" << "----------" << endl;
-	cout << "--------- " << "Printing Cateogories For " << y << " ---------" << endl;
-	cout << "----------" << "-----------------------------" << "----------" << endl;
 	for(int i = 0; i < 4; i++){
 		cout << "Category " << i+1 << ":" << endl;
 		TeamNode* team = n->table[i];
@@ -195,30 +219,7 @@ void YearTree::readFile(string filename, int y){
 
 void YearTree::readRecord(string filename, int y){
 	YearNode* node = searchYear(y);
-	node->hist->r1v2 = 0;
-	node->hist->r1v3 = 0;
-	node->hist->r1v4 = 0;
-	node->hist->r2v1 = 0;
-	node->hist->r2v3 = 0;
-	node->hist->r2v4 = 0;
-	node->hist->r3v1 = 0;
-	node->hist->r3v2 = 0;
-	node->hist->r3v4 = 0;
-	node->hist->r4v1 = 0;
-	node->hist->r4v2 = 0;
-	node->hist->r4v3 = 0;
-	node->hist->r1v2p = 0;
-	node->hist->r1v3p = 0;
-	node->hist->r1v4p = 0;
-	node->hist->r2v1p = 0;
-	node->hist->r2v3p = 0;
-	node->hist->r2v4p = 0;
-	node->hist->r3v1p = 0;
-	node->hist->r3v2p = 0;
-	node->hist->r3v4p = 0;
-	node->hist->r4v1p = 0;
-	node->hist->r4v2p = 0;
-	node->hist->r4v3p = 0;
+	
 	ifstream ifs(filename);
 	if(ifs.is_open()){
 		string line;
@@ -242,178 +243,259 @@ void YearTree::readRecord(string filename, int y){
 			int awayCat = searchTeam(away, y);
 			if(homeCat != awayCat){ // check to see if teams are in the same category
 				if(homeScore > awayScore){
-					if(finish != "OT" || finish != "SO"){
+					if(finish != "SO"){
 						if(homeCat == 1 && awayCat == 2){
-							node->hist->r1v2 += 2;
-							node->hist->r1v2p += 2;
-							node->hist->r2v1p += 2;
+							node->hist.r1v2 += 2;
+							node->hist.r1v2p += 2;
+							node->hist.r2v1p += 2;
 						}
 						if(homeCat == 1 && awayCat == 3){
-							node->hist->r1v3 += 2;
-							node->hist->r1v3p += 2;
-							node->hist->r3v1p += 2;
+							node->hist.r1v3 += 2;
+							node->hist.r1v3p += 2;
+							node->hist.r3v1p += 2;
 						}
 						if(homeCat == 1 && awayCat == 4){
-							node->hist->r1v4 += 2;
-							node->hist->r1v4p += 2;
-							node->hist->r4v1p += 2;
+							node->hist.r1v4 += 2;
+							node->hist.r1v4p += 2;
+							node->hist.r4v1p += 2;
 						}
 						if(homeCat == 2 && awayCat == 3){
-							node->hist->r2v3 += 2;
-							node->hist->r2v3p += 2;
-							node->hist->r3v2p += 2;
+							node->hist.r2v3 += 2;
+							node->hist.r2v3p += 2;
+							node->hist.r3v2p += 2;
 						}
 						if(homeCat == 2 && awayCat == 4){
-							node->hist->r2v4 += 2;
-							node->hist->r2v4p += 2;
-							node->hist->r4v2p += 2;
+							node->hist.r2v4 += 2;
+							node->hist.r2v4p += 2;
+							node->hist.r4v2p += 2;
 						}
 						if(homeCat == 3 && awayCat == 4){
-							node->hist->r3v4 += 2;
-							node->hist->r3v4p += 2;
-							node->hist->r4v3p += 2;
+							node->hist.r3v4 += 2;
+							node->hist.r3v4p += 2;
+							node->hist.r4v3p += 2;
 						}
 					}
-					else{ // game did go in to OT or SO, away team gets a point 
-						if(homeCat == 1 && awayCat == 2){
-							node->hist->r1v2 += 2;
-							node->hist->r1v2p += 2;
-							node->hist->r2v1 += 1;
-							node->hist->r2v1p += 2;
-						}
-						if(homeCat == 1 && awayCat == 3){
-							node->hist->r1v3 += 2;
-							node->hist->r1v3p += 2;
-							node->hist->r3v1 += 1;
-							node->hist->r3v1p += 2;
-						}
-						if(homeCat == 1 && awayCat == 4){
-							node->hist->r1v4 += 2;
-							node->hist->r1v4p += 2;
-							node->hist->r4v1 += 1;
-							node->hist->r4v1p += 2;
-						}
-						if(homeCat == 2 && awayCat == 3){
-							node->hist->r2v3 += 2;
-							node->hist->r2v3p += 2;
-							node->hist->r3v2 += 1;
-							node->hist->r3v2p += 2;
-						}
-						if(homeCat == 2 && awayCat == 4){
-							node->hist->r2v4 += 2;
-							node->hist->r2v3p += 2;
-							node->hist->r4v2 += 1;
-							node->hist->r4v2p += 2;
-						}
-						if(homeCat == 3 && awayCat == 4){
-							node->hist->r3v4 += 2;
-							node->hist->r3v4p += 2;
-							node->hist->r4v3 += 1;
-							node->hist->r4v3p += 2;
-						}
-					}
+					// else if(finish != "SO"){ // game did go in to OT or SO, away team gets a point 
+					// 	if(homeCat == 1 && awayCat == 2){
+					// 		node->hist.r1v2 += 2;
+					// 		node->hist.r1v2p += 2;
+					// 		node->hist.r2v1 += 1;
+					// 		node->hist.r2v1p += 2;
+					// 	}
+					// 	if(homeCat == 1 && awayCat == 3){
+					// 		node->hist.r1v3 += 2;
+					// 		node->hist.r1v3p += 2;
+					// 		node->hist.r3v1 += 1;
+					// 		node->hist.r3v1p += 2;
+					// 	}
+					// 	if(homeCat == 1 && awayCat == 4){
+					// 		node->hist.r1v4 += 2;
+					// 		node->hist.r1v4p += 2;
+					// 		node->hist.r4v1 += 1;
+					// 		node->hist.r4v1p += 2;
+					// 	}
+					// 	if(homeCat == 2 && awayCat == 3){
+					// 		node->hist.r2v3 += 2;
+					// 		node->hist.r2v3p += 2;
+					// 		node->hist.r3v2 += 1;
+					// 		node->hist.r3v2p += 2;
+					// 	}
+					// 	if(homeCat == 2 && awayCat == 4){
+					// 		node->hist.r2v4 += 2;
+					// 		node->hist.r2v3p += 2;
+					// 		node->hist.r4v2 += 1;
+					// 		node->hist.r4v2p += 2;
+					// 	}
+					// 	if(homeCat == 3 && awayCat == 4){
+					// 		node->hist.r3v4 += 2;
+					// 		node->hist.r3v4p += 2;
+					// 		node->hist.r4v3 += 1;
+					// 		node->hist.r4v3p += 2;
+					// 	}
+					// }
 				} // end of home wins loop
 				else{ // away team won
-					if(finish != "OT" || finish != "SO"){
+					if(finish != "SO"){
 						if(homeCat == 1 && awayCat == 2){
-							node->hist->r2v1 += 2;
-							node->hist->r2v1p += 2;
-							node->hist->r1v2p += 2;
+							node->hist.r2v1 += 2;
+							node->hist.r2v1p += 2;
+							node->hist.r1v2p += 2;
 						}
 						if(homeCat == 1 && awayCat == 3){
-							node->hist->r3v1 += 2;
-							node->hist->r3v1p += 2;
-							node->hist->r1v3p += 2;
+							node->hist.r3v1 += 2;
+							node->hist.r3v1p += 2;
+							node->hist.r1v3p += 2;
 						}
 						if(homeCat == 1 && awayCat == 4){
-							node->hist->r4v1 += 2;
-							node->hist->r4v1p += 2;
-							node->hist->r1v4p += 2;
+							node->hist.r4v1 += 2;
+							node->hist.r4v1p += 2;
+							node->hist.r1v4p += 2;
 						}
 						if(homeCat == 2 && awayCat == 3){
-							node->hist->r3v2 += 2;
-							node->hist->r3v2p += 2;
-							node->hist->r2v3p += 2;
+							node->hist.r3v2 += 2;
+							node->hist.r3v2p += 2;
+							node->hist.r2v3p += 2;
 						}
 						if(homeCat == 2 && awayCat == 4){
-							node->hist->r4v2 += 2;
-							node->hist->r4v2p += 2;
-							node->hist->r2v4p += 2;
+							node->hist.r4v2 += 2;
+							node->hist.r4v2p += 2;
+							node->hist.r2v4p += 2;
 						}
 						if(homeCat == 3 && awayCat == 4){
-							node->hist->r4v3 += 2;
-							node->hist->r4v3p += 2;
-							node->hist->r3v4p += 2;
+							node->hist.r4v3 += 2;
+							node->hist.r4v3p += 2;
+							node->hist.r3v4p += 2;
 						}
 					}
-					else{ // home team gets a point
-						if(homeCat == 1 && awayCat == 2){
-							node->hist->r2v1 += 2;
-							node->hist->r2v1p += 2;
-							node->hist->r1v2 += 1;
-							node->hist->r1v2p += 2;
-						}
-						if(homeCat == 1 && awayCat == 3){
-							node->hist->r3v1 += 2;
-							node->hist->r3v1p += 2;
-							node->hist->r1v3 += 1;
-							node->hist->r1v3p += 2;
-						}
-						if(homeCat == 1 && awayCat == 4){
-							node->hist->r4v1 += 2;
-							node->hist->r4v1p += 2;
-							node->hist->r1v4 += 1;
-							node->hist->r1v4p += 2;
-						}
-						if(homeCat == 2 && awayCat == 3){
-							node->hist->r3v2 += 2;
-							node->hist->r3v2p += 2;
-							node->hist->r2v3 += 1;
-							node->hist->r2v3p += 2;
-						}
-						if(homeCat == 2 && awayCat == 4){
-							node->hist->r4v2 += 2;
-							node->hist->r4v2p += 2;
-							node->hist->r2v4 += 1;
-							node->hist->r2v4p += 2;
-						}
-						if(homeCat == 3 && awayCat == 4){
-							node->hist->r4v3 += 2;
-							node->hist->r4v3p += 2;
-							node->hist->r3v4 += 1;
-							node->hist->r3v4p += 2;
-						}
-					}
+					// else if(finish != "SO"){ // home team gets a point
+					// 	if(homeCat == 1 && awayCat == 2){
+					// 		node->hist.r2v1 += 2;
+					// 		node->hist.r2v1p += 2;
+					// 		// node->hist.r1v2 += 1;
+					// 		node->hist.r1v2p += 2;
+					// 	}
+					// 	if(homeCat == 1 && awayCat == 3){
+					// 		node->hist.r3v1 += 2;
+					// 		node->hist.r3v1p += 2;
+					// 		// node->hist.r1v3 += 1;
+					// 		node->hist.r1v3p += 2;
+					// 	}
+					// 	if(homeCat == 1 && awayCat == 4){
+					// 		node->hist.r4v1 += 2;
+					// 		node->hist.r4v1p += 2;
+					// 		// node->hist.r1v4 += 1;
+					// 		node->hist.r1v4p += 2;
+					// 	}
+					// 	if(homeCat == 2 && awayCat == 3){
+					// 		node->hist.r3v2 += 2;
+					// 		node->hist.r3v2p += 2;
+					// 		// node->hist.r2v3 += 1;
+					// 		node->hist.r2v3p += 2;
+					// 	}
+					// 	if(homeCat == 2 && awayCat == 4){
+					// 		node->hist.r4v2 += 2;
+					// 		node->hist.r4v2p += 2;
+					// 		// node->hist.r2v4 += 1;
+					// 		node->hist.r2v4p += 2;
+					// 	}
+					// 	if(homeCat == 3 && awayCat == 4){
+					// 		node->hist.r4v3 += 2;
+					// 		node->hist.r4v3p += 2;
+					// 		// node->hist.r3v4 += 1;
+					// 		node->hist.r3v4p += 2;
+					// 	}
+					// }
 				}
 			}
 		}
 	}
 }
 
-void YearTree::printRecord(int y){
-	YearNode* node = searchYear(y);
-	cout << "Category 1 point percentage vs:" << endl;
-	cout << "Category 2: " << node->hist->r1v2/node->hist->r1v2p << endl;
-	cout << "Category 3: " << node->hist->r1v3/node->hist->r1v3p << endl;
-	cout << "Category 4: " << node->hist->r1v4/node->hist->r1v4p << endl;
-	cout << "Category 2 point percentage vs:" << endl;
-	cout << "Category 1: " << node->hist->r2v1/node->hist->r2v1p << endl;
-	cout << "Category 3: " << node->hist->r2v3/node->hist->r2v3p << endl;
-	cout << "Category 4: " << node->hist->r2v4/node->hist->r2v4p << endl;
-	cout << "Category 3 point percentage vs:" << endl;
-	cout << "Category 1: " << node->hist->r3v1/node->hist->r3v1p << endl;
-	cout << "Category 2: " << node->hist->r3v2/node->hist->r3v2p << endl;
-	cout << "Category 4: " << node->hist->r3v4/node->hist->r3v4p << endl;
-	cout << "Category 4 point percentage vs:" << endl;
-	cout << "Category 1: " << node->hist->r4v1/node->hist->r4v1p << endl;
-	cout << "Category 2: " << node->hist->r4v2/node->hist->r4v2p << endl;
-	cout << "Category 3: " << node->hist->r4v3/node->hist->r4v3p << endl;
+void YearTree::getTotalRecord(int min, int max){
+	// points made
+	float t1v2 = 0;
+	float t1v3 = 0;
+	float t1v4 = 0;
+	float t2v1 = 0;
+	float t2v3 = 0;
+	float t2v4 = 0;
+	float t3v1 = 0;
+	float t3v2 = 0;
+	float t3v4 = 0;
+	float t4v1 = 0;
+	float t4v2 = 0;
+	float t4v3 = 0;
+
+	int t1v2p = 0;
+	int t1v3p = 0;
+	int t1v4p = 0;
+	int t2v1p = 0;
+	int t2v3p = 0;
+	int t2v4p = 0;
+	int t3v1p = 0;
+	int t3v2p = 0;
+	int t3v4p = 0;
+	int t4v1p = 0;
+	int t4v2p = 0;
+	int t4v3p = 0;
+
+	for(int i = min; i <= max; i++){
+		if(searchYear(i)){
+			YearNode* N = searchYear(i);
+			t1v2 += N->hist.r1v2;
+			t1v2p += N->hist.r1v2p;
+			t1v3 += N->hist.r1v3;
+			t1v3p += N->hist.r1v3p;
+			t1v4 += N->hist.r1v4;
+			t1v4p += N->hist.r1v4p;
+			t2v1 += N->hist.r2v1;
+			t2v1p += N->hist.r2v1p;
+			t2v3 += N->hist.r2v3;
+			t2v3p += N->hist.r2v3p;
+			t2v4 += N->hist.r2v4;
+			t2v4p += N->hist.r2v4p;
+			t3v1 += N->hist.r3v1;
+			t3v1p += N->hist.r3v1p;
+			t3v2 += N->hist.r3v2;
+			t3v2p += N->hist.r3v2p;
+			t3v4 += N->hist.r3v4;
+			t3v4p += N->hist.r3v4p;
+			t4v1 += N->hist.r4v1;
+			t4v1p += N->hist.r4v1p;
+			t4v2 += N->hist.r4v2;
+			t4v2p += N->hist.r4v2p;
+			t4v3 += N->hist.r4v3;
+			t4v3p += N->hist.r4v3p;
+		}
+	}
+	cout << "PRINTING RESULTS FOR ALL YEARS" << endl;
+	cout << "------------------------------------------------------------------------" << endl;
+	cout << "Category 1 winning percentage vs:" << endl;
+	cout << "2: " << setprecision(4) << (t1v2/t1v2p)*100 << "%" << endl;
+	cout << "3: " << (t1v3/t1v3p)*100 << "%" << endl;
+	cout << "4: " << (t1v4/t1v4p)*100 << "%" << endl;
+	cout << "Category 2 winning percentage vs:" << endl;
+	cout << "1: " << (t2v1/t2v1p)*100 << "%" << endl;
+	cout << "3: " << (t2v3/t2v3p)*100 << "%" << endl;
+	cout << "4: " << (t2v4/t2v4p)*100 << "%" << endl;
+	cout << "Category 3 winning percentage vs:" << endl;
+	cout << "1: " << (t3v1/t3v1p)*100 << "%" << endl;
+	cout << "2: " << (t3v2/t3v2p)*100 << "%" << endl;
+	cout << "4: " << (t3v4/t3v4p)*100 << "%" << endl;
+	cout << "Category 4 winning percentage vs:" << endl;
+	cout << "1: " << (t4v1/t4v1p)*100 << "%" << endl;
+	cout << "2: " << (t4v2/t4v2p)*100 << "%" << endl;
+	cout << "3: " << (t4v3/t4v3p)*100 << "%" << endl;
 }
 
-//***********************************************************************************//
-//**********************************OTHER FUNCTIONS**********************************//
-//***********************************************************************************//
+void YearTree::printAll(int year){
+	cout << "PRINTING RESULTS FOR " << year << endl;
+	cout << "------------------------------------------------------------------------" << endl;
+	printCategories(year);
+	cout << "------------------------------------------------------------------------" << endl;
+	printRecord(year);
+	cout << "------------------------------------------------------------------------" << endl << endl;
+}
 
+void YearTree::printRecord(int y){
+	YearNode* node = searchYear(y);
+	cout << "Category 1 winning percentage vs:" << endl;
+	cout << "2: " << setprecision(4) << (node->hist.r1v2/node->hist.r1v2p)*100 << "%" << endl;
+	cout << "3: " << (node->hist.r1v3/node->hist.r1v3p)*100 << "%" <<endl;
+	cout << "4: " << (node->hist.r1v4/node->hist.r1v4p)*100 << "%" <<endl;
+	cout << "Category 2 winning percentage vs:" << endl;
+	cout << "1: " << (node->hist.r2v1/node->hist.r2v1p)*100 << "%" << endl;
+	cout << "3: " << (node->hist.r2v3/node->hist.r2v3p)*100 << "%" << endl;
+	cout << "4: " << (node->hist.r2v4/node->hist.r2v4p)*100 << "%" << endl;
+	cout << "Category 3 winning percentage vs:" << endl;
+	cout << "1: " << (node->hist.r3v1/node->hist.r3v1p)*100 << "%" << endl;
+	cout << "2: " << (node->hist.r3v2/node->hist.r3v2p)*100 << "%" << endl;
+	cout << "4: " << (node->hist.r3v4/node->hist.r3v4p)*100 << "%" << endl;
+	cout << "Category 4 winning percentage vs:" << endl;
+	cout << "1: " << (node->hist.r4v1/node->hist.r4v1p)*100 << "%" << endl;
+	cout << "2: " << (node->hist.r4v2/node->hist.r4v2p)*100 << "%" << endl;
+	cout << "3: " << (node->hist.r4v3/node->hist.r4v3p)*100 << "%" << endl;
+}
 
 string getTeamAbrv(string name){
 	if(name == "Anaheim Ducks"){
