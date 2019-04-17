@@ -9,11 +9,19 @@ using namespace std;
 
 int main(){
 	YearTree T;
-	int year = 2015;
-	T.addYear(2015);
+	T.addYear(2018);
+	T.addYear(2017);
+	T.addYear(2016);
 
-	T.readFile("2018.txt", year);
-	T.printCategories(year);
+	T.readFile("2018.txt", 2018);
+	T.printCategories(2018);
+	cout << endl;
+	T.readFile("2017.txt", 2017);
+	T.printCategories(2017);
+	cout << endl;
+	T.readFile("2016.txt", 2016);
+	T.printCategories(2016);
+
 	
 	return 0;
 }

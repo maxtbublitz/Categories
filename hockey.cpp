@@ -9,9 +9,9 @@
 
 using namespace std;
 
-int getHash(int gf, int ga){
-	if(gf >= 2.8){ // team has above average offense and
-		if(ga <= 2.8){ // above average defense
+int getHash(float gf, float ga){
+	if(gf >= 2.73){ // team has above average offense and
+		if(ga <= 2.73){ // above average defense
 			return 0;
 		}
 		else{ // below average defense
@@ -19,42 +19,11 @@ int getHash(int gf, int ga){
 		}
 	}
 	else{ // team has below average offense and
-		if(ga <= 2.8){ // above average defense
+		if(ga <= 2.73){ // above average defense
 			return 2;
 		}
 		else{ // below average defense
 			return 3;
-		}
-	}
-}
-
-/*
-FILENAME STUCTURE:
-Rank, Name, Average Age, Games Played, Wins, Losses, OT Losses, Points, Point%, GF, GA, 22 more items
-Seperated by commas
-*/
-
-void YearTree::readFile(string filename, int y){
-	YearNode* node = searchYear(y);
-	ifstream ifs(filename);
-	if(ifs.is_open()){
-		string line;
-		while(getline(ifs, line)){
-			vector <string> tokens; // create a vector of strings 
-			stringstream check1(line); 
-			string intermediate; 
-			int count = 0; // initialize count to 0
-			while(getline(check1, intermediate, ',')){
-				tokens.push_back(intermediate); // add new string to the vector
-				count++; // keep track of count to access that element in the vector
-			}
-			// cout << tokens[1] << " " << tokens[9] << " " << tokens[10] << endl;
-			string nm = tokens[1];
-			float gf60 = stof(tokens[9])/stof(tokens[3]);
-			float ga60 = stof(tokens[10])/stof(tokens[3]);
-			nm.erase(remove(nm.begin(), nm.end(), '*'), nm.end());
-			nm = getTeamAbrv(nm);
-			createTeamNode(nm, gf60, ga60, y);
 		}
 	}
 }
@@ -66,6 +35,15 @@ void YearTree::readFile(string filename, int y){
 YearTree::YearTree(){ root = 0; }
 
 YearTree::~YearTree(){ }
+
+TeamNode* createNodeHelper(string name, float gf, float ga){
+	TeamNode* newNode = new TeamNode;
+	newNode->name = name;
+	newNode->goalsFor = gf;
+	newNode->goalsAgainst = ga;
+	newNode->next = NULL;
+	return newNode;
+}
 
 YearNode* YearTree::createYearNode(int y){
 	// Tree
@@ -142,17 +120,6 @@ void YearTree::printCategories(int y){
 	}
 }
 
-
-
-TeamNode* createNodeHelper(string name, float gf, float ga){
-	TeamNode* newNode = new TeamNode;
-	newNode->name = name;
-	newNode->goalsFor = gf;
-	newNode->goalsAgainst = ga;
-	newNode->next = NULL;
-	return newNode;
-}
-
 void YearTree::createTeamNode(string nm, float gf60, float ga60, int year){
 	
 	YearNode* y = searchYear(year); // find year
@@ -175,6 +142,55 @@ void YearTree::createTeamNode(string nm, float gf60, float ga60, int year){
 	prev->next = addNode;
 	// cout << "Adding " << addNode->name << endl;
 	return;
+}
+
+/*
+FILENAME STUCTURE:
+Rank, Name, Average Age, Games Played, Wins, Losses, OT Losses, Points, Point%, GF, GA, 22 more items
+Seperated by commas
+*/
+
+void YearTree::readFile(string filename, int y){
+	YearNode* node = searchYear(y);
+	ifstream ifs(filename);
+	if(ifs.is_open()){
+		string line;
+		while(getline(ifs, line)){
+			vector <string> tokens; // create a vector of strings 
+			stringstream check1(line); 
+			string intermediate; 
+			int count = 0; // initialize count to 0
+			while(getline(check1, intermediate, ',')){
+				tokens.push_back(intermediate); // add new string to the vector
+				count++; // keep track of count to access that element in the vector
+			}
+			// cout << tokens[1] << " " << tokens[9] << " " << tokens[10] << endl;
+			string nm = tokens[1];
+			float gf60 = stof(tokens[9])/stof(tokens[3]); // divide total goals by games played
+			float ga60 = stof(tokens[10])/stof(tokens[3]); // divide total goals by games played
+			nm.erase(remove(nm.begin(), nm.end(), '*'), nm.end()); // remove *
+			nm = getTeamAbrv(nm); 
+			createTeamNode(nm, gf60, ga60, y);
+		}
+	}
+}
+
+void YearTree::readRecord(string filename, int y){
+	YearNode* node = searchYear(y);
+	ifstream ifs(filename);
+	if(ifs.is_open()){
+		string line;
+		while(getline(ifs, line)){
+			vector <string> tokens;
+			stringstream check1(line);
+			string intermediate;
+			int count = 0;
+			while(getline(check1, intermediate, ',')){
+				tokens.push_back(intermediate);
+				count++;
+			}
+		}
+	}
 }
 
 //***********************************************************************************//
