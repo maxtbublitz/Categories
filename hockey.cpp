@@ -104,6 +104,22 @@ YearNode* YearTree::searchYear(int y){
 	return n;
 }
 
+int YearTree::searchTeam(string name, int y){ // returns teams category number 
+	YearNode* year = searchYear(y);
+	for(int i = 0; i < 4; i++){
+		TeamNode* temp = year->table[i];
+		while(temp != NULL){
+			if(name == temp->name){
+				return i+1;
+			}
+			else{
+				temp = temp->next;
+			}
+		}
+	}
+	return 0;
+}
+
 void YearTree::printCategories(int y){
 	YearNode* n = searchYear(y);
 	cout << "----------" << "-----------------------------" << "----------" << endl;
@@ -175,8 +191,34 @@ void YearTree::readFile(string filename, int y){
 	}
 }
 
+// Date, home, home score, away, away score, OT/SO/REG
+
 void YearTree::readRecord(string filename, int y){
 	YearNode* node = searchYear(y);
+	node->hist->r1v2 = 0;
+	node->hist->r1v3 = 0;
+	node->hist->r1v4 = 0;
+	node->hist->r2v1 = 0;
+	node->hist->r2v3 = 0;
+	node->hist->r2v4 = 0;
+	node->hist->r3v1 = 0;
+	node->hist->r3v2 = 0;
+	node->hist->r3v4 = 0;
+	node->hist->r4v1 = 0;
+	node->hist->r4v2 = 0;
+	node->hist->r4v3 = 0;
+	node->hist->r1v2p = 0;
+	node->hist->r1v3p = 0;
+	node->hist->r1v4p = 0;
+	node->hist->r2v1p = 0;
+	node->hist->r2v3p = 0;
+	node->hist->r2v4p = 0;
+	node->hist->r3v1p = 0;
+	node->hist->r3v2p = 0;
+	node->hist->r3v4p = 0;
+	node->hist->r4v1p = 0;
+	node->hist->r4v2p = 0;
+	node->hist->r4v3p = 0;
 	ifstream ifs(filename);
 	if(ifs.is_open()){
 		string line;
@@ -189,8 +231,183 @@ void YearTree::readRecord(string filename, int y){
 				tokens.push_back(intermediate);
 				count++;
 			}
+			// store tokens in variables
+			string home = getTeamAbrv(tokens[1]);
+			int homeScore = stoi(tokens[2]);
+			string away = getTeamAbrv(tokens[3]);
+			int awayScore = stoi(tokens[4]);
+			string finish = tokens[5];
+			// find teams in their respective categories
+			int homeCat = searchTeam(home, y);
+			int awayCat = searchTeam(away, y);
+			if(homeCat != awayCat){ // check to see if teams are in the same category
+				if(homeScore > awayScore){
+					if(finish != "OT" || finish != "SO"){
+						if(homeCat == 1 && awayCat == 2){
+							node->hist->r1v2 += 2;
+							node->hist->r1v2p += 2;
+							node->hist->r2v1p += 2;
+						}
+						if(homeCat == 1 && awayCat == 3){
+							node->hist->r1v3 += 2;
+							node->hist->r1v3p += 2;
+							node->hist->r3v1p += 2;
+						}
+						if(homeCat == 1 && awayCat == 4){
+							node->hist->r1v4 += 2;
+							node->hist->r1v4p += 2;
+							node->hist->r4v1p += 2;
+						}
+						if(homeCat == 2 && awayCat == 3){
+							node->hist->r2v3 += 2;
+							node->hist->r2v3p += 2;
+							node->hist->r3v2p += 2;
+						}
+						if(homeCat == 2 && awayCat == 4){
+							node->hist->r2v4 += 2;
+							node->hist->r2v4p += 2;
+							node->hist->r4v2p += 2;
+						}
+						if(homeCat == 3 && awayCat == 4){
+							node->hist->r3v4 += 2;
+							node->hist->r3v4p += 2;
+							node->hist->r4v3p += 2;
+						}
+					}
+					else{ // game did go in to OT or SO, away team gets a point 
+						if(homeCat == 1 && awayCat == 2){
+							node->hist->r1v2 += 2;
+							node->hist->r1v2p += 2;
+							node->hist->r2v1 += 1;
+							node->hist->r2v1p += 2;
+						}
+						if(homeCat == 1 && awayCat == 3){
+							node->hist->r1v3 += 2;
+							node->hist->r1v3p += 2;
+							node->hist->r3v1 += 1;
+							node->hist->r3v1p += 2;
+						}
+						if(homeCat == 1 && awayCat == 4){
+							node->hist->r1v4 += 2;
+							node->hist->r1v4p += 2;
+							node->hist->r4v1 += 1;
+							node->hist->r4v1p += 2;
+						}
+						if(homeCat == 2 && awayCat == 3){
+							node->hist->r2v3 += 2;
+							node->hist->r2v3p += 2;
+							node->hist->r3v2 += 1;
+							node->hist->r3v2p += 2;
+						}
+						if(homeCat == 2 && awayCat == 4){
+							node->hist->r2v4 += 2;
+							node->hist->r2v3p += 2;
+							node->hist->r4v2 += 1;
+							node->hist->r4v2p += 2;
+						}
+						if(homeCat == 3 && awayCat == 4){
+							node->hist->r3v4 += 2;
+							node->hist->r3v4p += 2;
+							node->hist->r4v3 += 1;
+							node->hist->r4v3p += 2;
+						}
+					}
+				} // end of home wins loop
+				else{ // away team won
+					if(finish != "OT" || finish != "SO"){
+						if(homeCat == 1 && awayCat == 2){
+							node->hist->r2v1 += 2;
+							node->hist->r2v1p += 2;
+							node->hist->r1v2p += 2;
+						}
+						if(homeCat == 1 && awayCat == 3){
+							node->hist->r3v1 += 2;
+							node->hist->r3v1p += 2;
+							node->hist->r1v3p += 2;
+						}
+						if(homeCat == 1 && awayCat == 4){
+							node->hist->r4v1 += 2;
+							node->hist->r4v1p += 2;
+							node->hist->r1v4p += 2;
+						}
+						if(homeCat == 2 && awayCat == 3){
+							node->hist->r3v2 += 2;
+							node->hist->r3v2p += 2;
+							node->hist->r2v3p += 2;
+						}
+						if(homeCat == 2 && awayCat == 4){
+							node->hist->r4v2 += 2;
+							node->hist->r4v2p += 2;
+							node->hist->r2v4p += 2;
+						}
+						if(homeCat == 3 && awayCat == 4){
+							node->hist->r4v3 += 2;
+							node->hist->r4v3p += 2;
+							node->hist->r3v4p += 2;
+						}
+					}
+					else{ // home team gets a point
+						if(homeCat == 1 && awayCat == 2){
+							node->hist->r2v1 += 2;
+							node->hist->r2v1p += 2;
+							node->hist->r1v2 += 1;
+							node->hist->r1v2p += 2;
+						}
+						if(homeCat == 1 && awayCat == 3){
+							node->hist->r3v1 += 2;
+							node->hist->r3v1p += 2;
+							node->hist->r1v3 += 1;
+							node->hist->r1v3p += 2;
+						}
+						if(homeCat == 1 && awayCat == 4){
+							node->hist->r4v1 += 2;
+							node->hist->r4v1p += 2;
+							node->hist->r1v4 += 1;
+							node->hist->r1v4p += 2;
+						}
+						if(homeCat == 2 && awayCat == 3){
+							node->hist->r3v2 += 2;
+							node->hist->r3v2p += 2;
+							node->hist->r2v3 += 1;
+							node->hist->r2v3p += 2;
+						}
+						if(homeCat == 2 && awayCat == 4){
+							node->hist->r4v2 += 2;
+							node->hist->r4v2p += 2;
+							node->hist->r2v4 += 1;
+							node->hist->r2v4p += 2;
+						}
+						if(homeCat == 3 && awayCat == 4){
+							node->hist->r4v3 += 2;
+							node->hist->r4v3p += 2;
+							node->hist->r3v4 += 1;
+							node->hist->r3v4p += 2;
+						}
+					}
+				}
+			}
 		}
 	}
+}
+
+void YearTree::printRecord(int y){
+	YearNode* node = searchYear(y);
+	cout << "Category 1 point percentage vs:" << endl;
+	cout << "Category 2: " << node->hist->r1v2/node->hist->r1v2p << endl;
+	cout << "Category 3: " << node->hist->r1v3/node->hist->r1v3p << endl;
+	cout << "Category 4: " << node->hist->r1v4/node->hist->r1v4p << endl;
+	cout << "Category 2 point percentage vs:" << endl;
+	cout << "Category 1: " << node->hist->r2v1/node->hist->r2v1p << endl;
+	cout << "Category 3: " << node->hist->r2v3/node->hist->r2v3p << endl;
+	cout << "Category 4: " << node->hist->r2v4/node->hist->r2v4p << endl;
+	cout << "Category 3 point percentage vs:" << endl;
+	cout << "Category 1: " << node->hist->r3v1/node->hist->r3v1p << endl;
+	cout << "Category 2: " << node->hist->r3v2/node->hist->r3v2p << endl;
+	cout << "Category 4: " << node->hist->r3v4/node->hist->r3v4p << endl;
+	cout << "Category 4 point percentage vs:" << endl;
+	cout << "Category 1: " << node->hist->r4v1/node->hist->r4v1p << endl;
+	cout << "Category 2: " << node->hist->r4v2/node->hist->r4v2p << endl;
+	cout << "Category 3: " << node->hist->r4v3/node->hist->r4v3p << endl;
 }
 
 //***********************************************************************************//
