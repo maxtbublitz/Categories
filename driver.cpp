@@ -9,9 +9,12 @@ using namespace std;
 
 int main(){
 	YearTree T;
-	T.addYear(2018);
 	T.addYear(2017);
+	T.addYear(2018);
+	T.addYear(2015);
 	T.addYear(2016);
+	T.addYear(2014);
+	T.addYear(2013);
 
 	cout << endl;
 
@@ -27,7 +30,19 @@ int main(){
 	T.readRecord("2016rec.txt", 2016);
 	T.printAll(2016);
 
-	T.getTotalRecord(2016, 2018);
+	T.readFile("2015.txt", 2015);
+	T.readRecord("2015rec.txt", 2015);
+	T.printAll(2015);
+
+	T.readFile("2014.txt", 2014);
+	T.readRecord("2014rec.txt", 2014);
+	T.printAll(2014);
+
+	T.readFile("2013.txt", 2013);
+	T.readRecord("2013rec.txt", 2013);
+	T.printAll(2013);
+
+	T.getTotalRecord(2013, 2018);
 
 	
 	return 0;

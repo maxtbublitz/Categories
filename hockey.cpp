@@ -173,11 +173,27 @@ void YearTree::createTeamNode(string nm, float gf60, float ga60, int year){
 		y->table[index] = addNode;
 		// cout << "Adding " << addNode->name << endl;
 		return;
-
 	}
-	while(temp != NULL){
+	if(nm < temp->name){ // case 1: less than head of linked list
+		prev = temp;
+		y->table[index] = addNode;
+		addNode->next = prev;
+		return;
+	}
+	else{
 		prev = temp;
 		temp = temp->next;
+	}
+	while(temp != NULL){
+		if(nm < temp->name){
+			prev->next = addNode;
+			addNode->next = temp;
+			return;
+		}
+		else{
+			prev = temp;
+			temp = temp->next;
+		}
 	}
 	prev->next = addNode;
 	// cout << "Adding " << addNode->name << endl;
@@ -233,6 +249,7 @@ void YearTree::readRecord(string filename, int y){
 				count++;
 			}
 			// store tokens in variables
+			// filenames are structured differently depending on year?
 			string home = getTeamAbrv(tokens[1]);
 			int homeScore = stoi(tokens[2]);
 			string away = getTeamAbrv(tokens[3]);
@@ -448,10 +465,10 @@ void YearTree::getTotalRecord(int min, int max){
 			t4v3p += N->hist.r4v3p;
 		}
 	}
-	cout << "PRINTING RESULTS FOR ALL YEARS" << endl;
+	cout << "RESULTS FOR ALL YEARS" << endl;
 	cout << "------------------------------------------------------------------------" << endl;
 	cout << "Category 1 winning percentage vs:" << endl;
-	cout << "2: " << setprecision(4) << (t1v2/t1v2p)*100 << "%" << endl;
+	cout << "2: " << setprecision(2) << (t1v2/t1v2p)*100 << "%" << endl;
 	cout << "3: " << (t1v3/t1v3p)*100 << "%" << endl;
 	cout << "4: " << (t1v4/t1v4p)*100 << "%" << endl;
 	cout << "Category 2 winning percentage vs:" << endl;
@@ -466,21 +483,30 @@ void YearTree::getTotalRecord(int min, int max){
 	cout << "1: " << (t4v1/t4v1p)*100 << "%" << endl;
 	cout << "2: " << (t4v2/t4v2p)*100 << "%" << endl;
 	cout << "3: " << (t4v3/t4v3p)*100 << "%" << endl;
+	cout << "------------------------------------------------------------------------" << endl;
 }
 
 void YearTree::printAll(int year){
-	cout << "PRINTING RESULTS FOR " << year << endl;
-	cout << "------------------------------------------------------------------------" << endl;
+	ofstream myfile;
+	myfile.open("output.txt");
+	cout << "RESULTS FOR " << year << endl;
+	// cout << "------------------------------------------------------------------------" << endl;
+	// printCategories(year);
+	// cout << "------------------------------------------------------------------------" << endl;
+	// printRecord(year);
+	// cout << "------------------------------------------------------------------------" << endl << endl;
+	myfile << "------------------------------------------------------------------------" << endl;
 	printCategories(year);
-	cout << "------------------------------------------------------------------------" << endl;
+	myfile << "------------------------------------------------------------------------" << endl;
 	printRecord(year);
-	cout << "------------------------------------------------------------------------" << endl << endl;
+	myfile << "------------------------------------------------------------------------" << endl << endl;
+	myfile.close();
 }
 
 void YearTree::printRecord(int y){
 	YearNode* node = searchYear(y);
 	cout << "Category 1 winning percentage vs:" << endl;
-	cout << "2: " << setprecision(4) << (node->hist.r1v2/node->hist.r1v2p)*100 << "%" << endl;
+	cout << "2: " << setprecision(2) << (node->hist.r1v2/node->hist.r1v2p)*100 << "%" << endl;
 	cout << "3: " << (node->hist.r1v3/node->hist.r1v3p)*100 << "%" <<endl;
 	cout << "4: " << (node->hist.r1v4/node->hist.r1v4p)*100 << "%" <<endl;
 	cout << "Category 2 winning percentage vs:" << endl;
@@ -501,7 +527,7 @@ string getTeamAbrv(string name){
 	if(name == "Anaheim Ducks"){
 		return "ANA";
 	}
-	if(name == "Arizona Coyotes"){
+	if(name == "Arizona Coyotes" || name == "Phoenix Coyotes"){
 		return "ARI";
 	}
 	if(name == "Boston Bruins"){
