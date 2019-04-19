@@ -1,1 +1,193 @@
-output.txt
+RESULTS FOR 2018
+------------------------------------------------------------------------
+Category 1:
+ANA BOS DAL LAK NSH WPG 
+Category 2:
+CAR CBJ CHI COL EDM FLA MIN NJD NYI NYR PHI PIT SJS TBL TOR VGK WSH 
+Category 3:
+STL 
+Category 4:
+ARI BUF CGY DET MTL OTT VAN 
+------------------------------------------------------------------------
+Category 1 winning percentage vs:
+2: 45%
+3: 55%
+4: 67%
+Category 2 winning percentage vs:
+1: 55%
+3: 48%
+4: 61%
+Category 3 winning percentage vs:
+1: 45%
+2: 52%
+4: 67%
+Category 4 winning percentage vs:
+1: 33%
+2: 39%
+3: 33%
+------------------------------------------------------------------------
+
+RESULTS FOR 2017
+------------------------------------------------------------------------
+Category 1:
+BOS CBJ CHI EDM MIN NSH NYR STL WSH 
+Category 2:
+NYI PIT TBL TOR WPG 
+Category 3:
+ANA CGY LAK MTL OTT SJS 
+Category 4:
+ARI BUF CAR COL DAL DET FLA NJD PHI VAN 
+------------------------------------------------------------------------
+Category 1 winning percentage vs:
+2: 50%
+3: 50%
+4: 66%
+Category 2 winning percentage vs:
+1: 50%
+3: 36%
+4: 55%
+Category 3 winning percentage vs:
+1: 50%
+2: 64%
+4: 60%
+Category 4 winning percentage vs:
+1: 34%
+2: 45%
+3: 40%
+------------------------------------------------------------------------
+
+RESULTS FOR 2016
+------------------------------------------------------------------------
+Category 1:
+CHI FLA NSH NYI NYR PIT SJS TBL WSH 
+Category 2:
+BOS CGY DAL OTT 
+Category 3:
+ANA BUF CAR DET LAK MIN NJD PHI STL 
+Category 4:
+ARI CBJ COL EDM MTL TOR VAN WPG 
+------------------------------------------------------------------------
+Category 1 winning percentage vs:
+2: 42%
+3: 52%
+4: 68%
+Category 2 winning percentage vs:
+1: 58%
+3: 42%
+4: 60%
+Category 3 winning percentage vs:
+1: 48%
+2: 58%
+4: 58%
+Category 4 winning percentage vs:
+1: 32%
+2: 40%
+3: 42%
+------------------------------------------------------------------------
+
+RESULTS FOR 2015
+------------------------------------------------------------------------
+Category 1:
+ANA CGY DET MIN NSH NYR OTT STL TBL VAN WSH 
+Category 2:
+CBJ DAL NYI SJS 
+Category 3:
+BOS CAR CHI COL FLA LAK MTL NJD PHI PIT WPG 
+Category 4:
+ARI BUF EDM TOR 
+------------------------------------------------------------------------
+Category 1 winning percentage vs:
+2: 58%
+3: 53%
+4: 75%
+Category 2 winning percentage vs:
+1: 42%
+3: 47%
+4: 50%
+Category 3 winning percentage vs:
+1: 47%
+2: 53%
+4: 65%
+Category 4 winning percentage vs:
+1: 25%
+2: 50%
+3: 35%
+------------------------------------------------------------------------
+
+RESULTS FOR 2014
+------------------------------------------------------------------------
+Category 1:
+DET MTL 
+Category 2:
+ANA BOS CAR CBJ NJD NSH NYR PHI 
+Category 3:
+ARI BUF CGY CHI COL DAL EDM FLA LAK MIN NYI OTT SJS STL TBL TOR VAN WPG WSH 
+Category 4:
+PIT 
+------------------------------------------------------------------------
+Category 1 winning percentage vs:
+2: 37%
+3: 61%
+4: 0%
+Category 2 winning percentage vs:
+1: 63%
+3: 52%
+4: 31%
+Category 3 winning percentage vs:
+1: 39%
+2: 48%
+4: 29%
+Category 4 winning percentage vs:
+1: 1e+02%
+2: 69%
+3: 71%
+------------------------------------------------------------------------
+
+RESULTS FOR 2013
+------------------------------------------------------------------------
+Category 1:
+ANA CHI MTL PIT TOR WSH 
+Category 2:
+NYI PHI TBL 
+Category 3:
+ARI BOS CBJ DET EDM LAK MIN NJD NYR OTT SJS STL VAN 
+Category 4:
+BUF CAR CGY COL DAL FLA NSH WPG 
+------------------------------------------------------------------------
+Category 1 winning percentage vs:
+2: 56%
+3: 57%
+4: 78%
+Category 2 winning percentage vs:
+1: 44%
+3: 25%
+4: 62%
+Category 3 winning percentage vs:
+1: 43%
+2: 75%
+4: 49%
+Category 4 winning percentage vs:
+1: 22%
+2: 38%
+3: 51%
+------------------------------------------------------------------------
+
+RESULTS FOR ALL YEARS
+------------------------------------------------------------------------
+Category 1 winning percentage vs:
+2: 48%
+3: 54%
+4: 69%
+Category 2 winning percentage vs:
+1: 52%
+3: 47%
+4: 58%
+Category 3 winning percentage vs:
+1: 46%
+2: 53%
+4: 56%
+Category 4 winning percentage vs:
+1: 31%
+2: 42%
+3: 44%
+------------------------------------------------------------------------

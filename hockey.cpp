@@ -149,14 +149,16 @@ int YearTree::searchTeam(string name, int y){ // returns teams category number
 
 void YearTree::printCategories(int y){
 	YearNode* n = searchYear(y);
+	ofstream myfile;
+	myfile.open("output.txt", ios::app);
 	for(int i = 0; i < 4; i++){
-		cout << "Category " << i+1 << ":" << endl;
+		myfile << "Category " << i+1 << ":" << endl;
 		TeamNode* team = n->table[i];
 		while(team != NULL){
-			cout << team->name << " ";
+			myfile << team->name << " ";
 			team = team->next;
 		}
-		cout << endl;
+		myfile << endl;
 	}
 }
 
@@ -409,6 +411,8 @@ void YearTree::readRecord(string filename, int y){
 }
 
 void YearTree::getTotalRecord(int min, int max){
+	ofstream myfile;
+	myfile.open("output.txt", ios::app);
 	// points made
 	float t1v2 = 0;
 	float t1v3 = 0;
@@ -465,31 +469,31 @@ void YearTree::getTotalRecord(int min, int max){
 			t4v3p += N->hist.r4v3p;
 		}
 	}
-	cout << "RESULTS FOR ALL YEARS" << endl;
-	cout << "------------------------------------------------------------------------" << endl;
-	cout << "Category 1 winning percentage vs:" << endl;
-	cout << "2: " << setprecision(2) << (t1v2/t1v2p)*100 << "%" << endl;
-	cout << "3: " << (t1v3/t1v3p)*100 << "%" << endl;
-	cout << "4: " << (t1v4/t1v4p)*100 << "%" << endl;
-	cout << "Category 2 winning percentage vs:" << endl;
-	cout << "1: " << (t2v1/t2v1p)*100 << "%" << endl;
-	cout << "3: " << (t2v3/t2v3p)*100 << "%" << endl;
-	cout << "4: " << (t2v4/t2v4p)*100 << "%" << endl;
-	cout << "Category 3 winning percentage vs:" << endl;
-	cout << "1: " << (t3v1/t3v1p)*100 << "%" << endl;
-	cout << "2: " << (t3v2/t3v2p)*100 << "%" << endl;
-	cout << "4: " << (t3v4/t3v4p)*100 << "%" << endl;
-	cout << "Category 4 winning percentage vs:" << endl;
-	cout << "1: " << (t4v1/t4v1p)*100 << "%" << endl;
-	cout << "2: " << (t4v2/t4v2p)*100 << "%" << endl;
-	cout << "3: " << (t4v3/t4v3p)*100 << "%" << endl;
-	cout << "------------------------------------------------------------------------" << endl;
+	myfile << "RESULTS FOR ALL YEARS" << endl;
+	myfile << "------------------------------------------------------------------------" << endl;
+	myfile << "Category 1 winning percentage vs:" << endl;
+	myfile << "2: " << setprecision(2) << (t1v2/t1v2p)*100 << "%" << endl;
+	myfile << "3: " << (t1v3/t1v3p)*100 << "%" << endl;
+	myfile << "4: " << (t1v4/t1v4p)*100 << "%" << endl;
+	myfile << "Category 2 winning percentage vs:" << endl;
+	myfile << "1: " << (t2v1/t2v1p)*100 << "%" << endl;
+	myfile << "3: " << (t2v3/t2v3p)*100 << "%" << endl;
+	myfile << "4: " << (t2v4/t2v4p)*100 << "%" << endl;
+	myfile << "Category 3 winning percentage vs:" << endl;
+	myfile << "1: " << (t3v1/t3v1p)*100 << "%" << endl;
+	myfile << "2: " << (t3v2/t3v2p)*100 << "%" << endl;
+	myfile << "4: " << (t3v4/t3v4p)*100 << "%" << endl;
+	myfile << "Category 4 winning percentage vs:" << endl;
+	myfile << "1: " << (t4v1/t4v1p)*100 << "%" << endl;
+	myfile << "2: " << (t4v2/t4v2p)*100 << "%" << endl;
+	myfile << "3: " << (t4v3/t4v3p)*100 << "%" << endl;
+	myfile << "------------------------------------------------------------------------" << endl;
 }
 
 void YearTree::printAll(int year){
 	ofstream myfile;
-	myfile.open("output.txt");
-	cout << "RESULTS FOR " << year << endl;
+	myfile.open("output.txt", ios::app);
+	myfile << "RESULTS FOR " << year << endl;
 	// cout << "------------------------------------------------------------------------" << endl;
 	// printCategories(year);
 	// cout << "------------------------------------------------------------------------" << endl;
@@ -505,22 +509,24 @@ void YearTree::printAll(int year){
 
 void YearTree::printRecord(int y){
 	YearNode* node = searchYear(y);
-	cout << "Category 1 winning percentage vs:" << endl;
-	cout << "2: " << setprecision(2) << (node->hist.r1v2/node->hist.r1v2p)*100 << "%" << endl;
-	cout << "3: " << (node->hist.r1v3/node->hist.r1v3p)*100 << "%" <<endl;
-	cout << "4: " << (node->hist.r1v4/node->hist.r1v4p)*100 << "%" <<endl;
-	cout << "Category 2 winning percentage vs:" << endl;
-	cout << "1: " << (node->hist.r2v1/node->hist.r2v1p)*100 << "%" << endl;
-	cout << "3: " << (node->hist.r2v3/node->hist.r2v3p)*100 << "%" << endl;
-	cout << "4: " << (node->hist.r2v4/node->hist.r2v4p)*100 << "%" << endl;
-	cout << "Category 3 winning percentage vs:" << endl;
-	cout << "1: " << (node->hist.r3v1/node->hist.r3v1p)*100 << "%" << endl;
-	cout << "2: " << (node->hist.r3v2/node->hist.r3v2p)*100 << "%" << endl;
-	cout << "4: " << (node->hist.r3v4/node->hist.r3v4p)*100 << "%" << endl;
-	cout << "Category 4 winning percentage vs:" << endl;
-	cout << "1: " << (node->hist.r4v1/node->hist.r4v1p)*100 << "%" << endl;
-	cout << "2: " << (node->hist.r4v2/node->hist.r4v2p)*100 << "%" << endl;
-	cout << "3: " << (node->hist.r4v3/node->hist.r4v3p)*100 << "%" << endl;
+	ofstream myfile;
+	myfile.open("output.txt", ios::app);
+	myfile << "Category 1 winning percentage vs:" << endl;
+	myfile << "2: " << setprecision(2) << (node->hist.r1v2/node->hist.r1v2p)*100 << "%" << endl;
+	myfile << "3: " << (node->hist.r1v3/node->hist.r1v3p)*100 << "%" <<endl;
+	myfile << "4: " << (node->hist.r1v4/node->hist.r1v4p)*100 << "%" <<endl;
+	myfile << "Category 2 winning percentage vs:" << endl;
+	myfile << "1: " << (node->hist.r2v1/node->hist.r2v1p)*100 << "%" << endl;
+	myfile << "3: " << (node->hist.r2v3/node->hist.r2v3p)*100 << "%" << endl;
+	myfile << "4: " << (node->hist.r2v4/node->hist.r2v4p)*100 << "%" << endl;
+	myfile << "Category 3 winning percentage vs:" << endl;
+	myfile << "1: " << (node->hist.r3v1/node->hist.r3v1p)*100 << "%" << endl;
+	myfile << "2: " << (node->hist.r3v2/node->hist.r3v2p)*100 << "%" << endl;
+	myfile << "4: " << (node->hist.r3v4/node->hist.r3v4p)*100 << "%" << endl;
+	myfile << "Category 4 winning percentage vs:" << endl;
+	myfile << "1: " << (node->hist.r4v1/node->hist.r4v1p)*100 << "%" << endl;
+	myfile << "2: " << (node->hist.r4v2/node->hist.r4v2p)*100 << "%" << endl;
+	myfile << "3: " << (node->hist.r4v3/node->hist.r4v3p)*100 << "%" << endl;
 }
 
 string getTeamAbrv(string name){

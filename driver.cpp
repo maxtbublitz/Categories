@@ -16,7 +16,8 @@ int main(){
 	T.addYear(2014);
 	T.addYear(2013);
 
-	cout << endl;
+	ofstream myfile;
+	myfile.open("output.txt");
 
 	T.readFile("2018.txt", 2018);
 	T.readRecord("2018rec.txt", 2018);
@@ -44,6 +45,6 @@ int main(){
 
 	T.getTotalRecord(2013, 2018);
 
-	
+	myfile.close();
 	return 0;
 }
